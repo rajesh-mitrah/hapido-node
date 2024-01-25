@@ -31,7 +31,7 @@ router.get(
 
 router.put(
     ENDPOINTS.UPDATE_COMPANY_PROFILE,
-    // authenticateJWT,
+    authenticateJWT,
     companyController.updateCompany
 )
 

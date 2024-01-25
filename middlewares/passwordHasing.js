@@ -27,7 +27,7 @@ export const companyExists = async name => {
 };
 
 export const companyExistsById = async id => {
-	const [data, fields] = await dbClient.execute('SELECT * FROM company WHERE company_id = ?', [id]);
+	const [data, fields] = await dbClient.execute('SELECT * FROM connection_invite WHERE company_id = ?', [id]);
 	if (data.length == 0) return false;
 	return data;
 };

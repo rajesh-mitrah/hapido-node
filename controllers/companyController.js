@@ -94,17 +94,21 @@ const updateCompany = async (req, res) => {
 };
 
 const getAllCompanies = async (req, res) => {
-    const pageSize =
-        parseInt(req?.query?.pageSize) || DEFAULT_PARAMETERS.PAGE_SIZE;
-    const page = parseInt(req?.query?.page) || DEFAULT_PARAMETERS.PAGE;
-    const offset = (page - 1) * pageSize;
-
     try {
-        const [data, field] = await fetchAllCompanies({ pageSize, offset, search_terms: req?.query?.search_terms });
+        const [data, field] = await fetchAllCompanies();
         return successHandler(STATUS.SUCCESS.CODE, res, data);
     } catch (error) {
         return errorHandler(STATUS.INTERNAL_ERROR.CODE, res, { error: ERROR_MESSAGE.WENT_WRONG });
     }
 };
 
-export default { addCompany, getCompanyByName, getCompanyById, getAllCompanies, updateCompany };
+const getAll = async (req, res) => {
+    try {
+        const [data] = await fetchAll(req.email);
+        return successHandler(STATUS.SUCCESS.CODE, res, data);
+    } catch (error) {
+        return errorHandler(STATUS.INTERNAL_ERROR.CODE, res, { error: ERROR_MESSAGE.WENT_WRONG });
+    }
+};
+
+export default { addCompany, getCompanyByName, getCompanyById, getAllCompanies, getAll, updateCompany };

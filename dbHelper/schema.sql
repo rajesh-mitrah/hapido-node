@@ -23,8 +23,8 @@ CREATE TABLE company (
 
 CREATE TABLE connection_invite (
     xid CHAR(36) PRIMARY KEY,
-    company_id VARCHAR(30) NOT NULL,
-    request_company_id VARCHAR(30) NOT NULL,
+    company_id VARCHAR(36) NOT NULL,
+    request_company_id VARCHAR(36) NOT NULL,
     status_internal_name VARCHAR(30) NOT NULL
 );
 

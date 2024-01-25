@@ -1,10 +1,7 @@
 import { fetchUserByEmail, fetchUserById, deleteUserDetails, updateUserDetails, fetchUsers } from "../models/userModel.js";
-import { fetchAllCompanies } from '../models/companyModel.js'
 import { errorHandler } from '../middlewares/errorHandler.js';
 import { successHandler } from '../middlewares/successHandler.js';
-import { insertData } from "../models/userModel.js";
-import { DEFAULT_PARAMETERS, ERROR_MESSAGE, STATUS, SUCCESS_MESSAGE } from "../utils/constants.js";
-import { emailExists, companyExists, hashPassword } from '../middlewares/passwordHasing.js';
+import { ERROR_MESSAGE, STATUS, SUCCESS_MESSAGE } from "../utils/constants.js";
 
 const deleteUser = async (req, res) => {
     const { id } = req.params;
@@ -16,7 +13,7 @@ const deleteUser = async (req, res) => {
     } else {
         try {
             const hasUser = await deleteUserDetails(id);
-            if (hasUser.rowCount) {
+            if (hasUser) {
                 successHandler(STATUS.ACCEPTED.CODE, res, {
                     message: SUCCESS_MESSAGE.REMOVE_USER
                 });
@@ -32,7 +29,6 @@ const deleteUser = async (req, res) => {
         }
     }
 };
-
 
 const updateUser = async (req, res) => {
     const { id } = req.params;

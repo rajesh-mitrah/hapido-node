@@ -13,7 +13,11 @@ export const ENDPOINTS = {
 	GET_COMPANY_BY_ID: '/:id',
 	GET_ALL_COMPANY_DETAILS: '/',
 	UPDATE_COMPANY_PROFILE: '/:id',
-	SEND_REQUEST: '/send_request'
+	SEND_REQUEST: '/send_request',
+	REQUEST_SEND: '/request_send',
+	REQUEST_RECEIVE: '/request_receive',
+	UPDATE_STATUS: '/update_request',
+	GET_CONNECTIONS: '/get_connections'
 };
 // add_company_profile
 // add_company_profile
