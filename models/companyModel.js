@@ -5,7 +5,7 @@ const fetchCompanyName = async (name) => await dbClient.execute(`SELECT * FROM c
 
 const fetchCompanyId = async (id) => await dbClient.execute(`SELECT * FROM company WHERE company_id = '${id}'`);
 
-const fetchAllCompanies = async () => await dbClient.execute(`SELECT * FROM company`);
+// const fetchAllCompanies = async () => await dbClient.execute(`SELECT * FROM company`);
 
 const updateCompanyDetails = async (data, id) => {
   const {
@@ -81,32 +81,32 @@ const fetchAll = async (email) => {
   return result;
 }
 
-const requestSent = async (email) => {
+const requestSent = async (id) => {
   const response = await dbClient.execute(
     `SELECT 
     c.company_id , c.company_name , c.size , c.type , c.industry,
     ci.status_internal_name as status
   FROM company c 
   INNER JOIN connection_invite ci  ON ci.request_company_id = c.company_id AND ci.company_id  = ?`,
-    [email]
+    [id]
   );
   return response;
 };
 
-const requestReceived = async (email) => {
+const requestReceived = async (id) => {
   const response = await dbClient.execute(
     `SELECT 
     c.company_id , c.company_name , c.size , c.type , c.industry,
     ci.status_internal_name as status
   FROM company c 
   INNER JOIN connection_invite ci  ON ci.company_id = c.company_id AND ci.request_company_id = ?`,
-    [email]
+    [id]
   );
   return response;
 };
 
 
 export {
-  fetchCompanyName, fetchCompanyId, fetchAllCompanies, updateCompanyDetails, insertCompany, insertConnection,
+  fetchCompanyName, fetchCompanyId, fetchAll, updateCompanyDetails, insertCompany, insertConnection,
   updateConnection, fetchAllConnections, requestSent, requestReceived
 };

@@ -4,14 +4,15 @@ import {
 } from '../utils/constants.js';
 import requestController from '../controllers/requestController.js';
 import { authenticateJWT } from '../middlewares/jwtToken.js';
+// import companyController from '../controllers/companyController.js';
 
 const router = express.Router();
 
-router.get(
-    ENDPOINTS.GET_CONNECTIONS,
-    authenticateJWT,
-	requestController.getConnections
-)
+// router.get(
+//     ENDPOINTS.GET_CONNECTIONS,
+//     authenticateJWT,
+// 	requestController.getConnections
+// )
 
 router.post(
 	ENDPOINTS.SEND_REQUEST,

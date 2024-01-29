@@ -1,4 +1,4 @@
-import { fetchAllCompanies, fetchCompanyId, fetchCompanyName, insertCompany, insertConnection, updateCompanyDetails, updateConnection } from "../models/companyModel.js";
+import { fetchAll, fetchCompanyId, fetchCompanyName, insertCompany, insertConnection, updateCompanyDetails, updateConnection } from "../models/companyModel.js";
 import { companyExists } from "../middlewares/passwordHasing.js";
 import { ERROR_MESSAGE, STATUS, SUCCESS_MESSAGE } from "../utils/constants.js";
 import { successHandler } from "../middlewares/successHandler.js";
@@ -18,10 +18,10 @@ const addCompany = async (req, res) => {
             type: type,
             size: size,
             industry: industry,
-            email:req.email
+            email: req.email
         }
         const newUser = await insertCompany(storeData)
-        return successHandler(STATUS.SUCCESS.CODE, res, { message:  SUCCESS_MESSAGE.COMPANY_PROFILE_CREATED });
+        return successHandler(STATUS.SUCCESS.CODE, res, { message: SUCCESS_MESSAGE.COMPANY_PROFILE_CREATED });
     } catch (error) {
         errorHandler(ERROR_MESSAGE.WENT_WRONG, res, error);
     }
@@ -77,7 +77,7 @@ const updateCompany = async (req, res) => {
             const [data, field] = await fetchCompanyId(id);
             if (data) {
                 if (
-                    (type || size || industry ) && company_name 
+                    (type || size || industry) && company_name
                 ) {
                     let response = await updateCompanyDetails(req.body, id);
                     return successHandler(STATUS.SUCCESS.CODE, res, {
@@ -95,8 +95,8 @@ const updateCompany = async (req, res) => {
 
 const getAllCompanies = async (req, res) => {
     try {
-        const [data, field] = await fetchAllCompanies();
-        return successHandler(STATUS.SUCCESS.CODE, res, data);
+        const [data, field] = await fetchAll(req.email);
+        return successHandler(STATUS.SUCCESS.CODE, res, { message: SUCCESS_MESSAGE.COMPANY_DETAILS_UPDATE, data });
     } catch (error) {
         return errorHandler(STATUS.INTERNAL_ERROR.CODE, res, { error: ERROR_MESSAGE.WENT_WRONG });
     }

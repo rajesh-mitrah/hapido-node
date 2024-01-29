@@ -2,16 +2,16 @@ import { ERROR_MESSAGE, STATUS } from '../utils/constants.js';
 import { errorHandler } from '../middlewares/errorHandler.js';
 import { successHandler } from '../middlewares/successHandler.js';
 import { companyExistsById } from '../middlewares/passwordHasing.js';
-import { fetchAllConnections, insertConnection, requestReceived, requestSent, updateConnection } from '../models/companyModel.js';
+import { insertConnection, requestReceived, requestSent, updateConnection } from '../models/companyModel.js';
 
-const getConnections = async (req, res) => {
-    try {
-        const [data, fields] = await fetchAllConnections();
-        return successHandler(STATUS.SUCCESS.CODE, res, data);
-    } catch (error) {
-        return errorHandler(STATUS.INTERNAL_ERROR.CODE, res, { error: ERROR_MESSAGE.WENT_WRONG });
-    }
-};
+// const getConnections = async (req, res) => {
+//     try {
+//         const [data, fields] = await fetchAllConnections();
+//         return successHandler(STATUS.SUCCESS.CODE, res, data);
+//     } catch (error) {
+//         return errorHandler(STATUS.INTERNAL_ERROR.CODE, res, { error: ERROR_MESSAGE.WENT_WRONG });
+//     }
+// };
 
 const sendRequest = async (req, res) => {
     const { company_id, request_company_id, status } = req.body;
@@ -40,7 +40,7 @@ const updateStatus = async (req, res) => {
 
 const requestSend = async (req, res) => {
     try {
-        const [data, filelds] = await requestSent(req.email)
+        const [data, filelds] = await requestSent(req?.body?.id)
         return successHandler(STATUS.SUCCESS.CODE, res, { data });
     } catch (error) {
         return errorHandler(STATUS.BAD_REQUEST.CODE, res, { error: ERROR_MESSAGE.WENT_WRONG });
@@ -49,11 +49,11 @@ const requestSend = async (req, res) => {
 
 const requestReceive = async (req, res) => {
     try {
-        const result = await requestReceived(req.email)
-        return successHandler(STATUS.SUCCESS.CODE, res, { message: "Request have been send successfully" });
+        const [response, fields] = await requestReceived(req?.body?.id)
+        return successHandler(STATUS.SUCCESS.CODE, res, { response });
     } catch (error) {
         return errorHandler(STATUS.BAD_REQUEST.CODE, res, { error: ERROR_MESSAGE.WENT_WRONG });
     }
 }
 
-export default { sendRequest, updateStatus, getConnections, requestSend, requestReceive }
+export default { sendRequest, updateStatus, requestSend, requestReceive }
