@@ -49,13 +49,6 @@ const updateUserDetails = async (data, id) => {
   return response;
 };
 
-// const resetPwd = async (email, newPwd) => {
-//   const response = await dbClient.execute(
-//     `UPDATE users SET password_hash = $1 WHERE email = $2`, [newPwd, email]
-//   );
-//   return response;
-// }
-
 const insertData = async data => {
   const newUuid = uuidv4();
   const response = await dbClient.execute(
@@ -73,7 +66,23 @@ const insertData = async data => {
   return response
 }
 
+const SearchAllUsers = async ({ pageSize, offset, search_terms }) => {
+  let condition = `WHERE 1 = 1`;
+  if (search_terms) {
+    condition = `WHERE email like '%${search_terms}%'`
+  }
+  return await dbClient.execute(
+    `
+        SELECT *
+        FROM users
+        ${condition}
+        LIMIT ?
+        OFFSET ?
+      `,
+    [pageSize, offset]
+  )
+}
 
 const deleteUserDetails = async (id) => await dbClient.execute(`DELETE FROM users WHERE user_id = '${id}'`)
 
-export { fetchUserById, fetchUserByEmail, fetchAllUsers, deleteUserDetails, updateUserDetails, insertData, fetchUsers };
+export { fetchUserById, fetchUserByEmail, fetchAllUsers, deleteUserDetails, updateUserDetails, insertData, fetchUsers, SearchAllUsers };

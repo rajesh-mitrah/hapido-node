@@ -5,6 +5,7 @@ export const ENDPOINTS = {
 	GET_USER_BY_ID: '/get_user_by_id/:id',
 	GET_USER_BY_EMAIL: '/get_user_by_email/:email',
 	GET_ALL_USERS: '/get_all_users',
+	USER_SEARCH: '/search',
 	DELETE_USER: '/deleteuser/:id',
 	GET_LOOKUP_TYPES: '/types',
 	GET_LOOKUP_INDUSTRIES: '/industries',

@@ -45,6 +45,11 @@ router.get(
     userController.getAllUsers
 );
 
+router.get(
+    ENDPOINTS.USER_SEARCH,
+    userController.fetchAllUsers
+)
+
 router.delete(
     ENDPOINTS.DELETE_USER,
     authenticateJWT,

@@ -1,4 +1,4 @@
-import { fetchUserByEmail, fetchUserById, deleteUserDetails, updateUserDetails, fetchUsers } from "../models/userModel.js";
+import { fetchUserByEmail, fetchUserById, deleteUserDetails, updateUserDetails, fetchUsers, SearchAllUsers } from "../models/userModel.js";
 import { errorHandler } from '../middlewares/errorHandler.js';
 import { successHandler } from '../middlewares/successHandler.js';
 import { ERROR_MESSAGE, STATUS, SUCCESS_MESSAGE } from "../utils/constants.js";
@@ -107,4 +107,16 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-export default { getAllUsers, getUserById, getUserByEmail, deleteUser, updateUser };
+const fetchAllUsers = async (req, res) => {
+    const pageSize = parseInt(req?.query?.pageSize) || 10;
+    const page = parseInt(req?.query?.page) || 1;
+    const offset = (page - 1) * pageSize;
+    try {
+        const [response, fields] = await SearchAllUsers({ pageSize, offset, search_terms: req?.query?.search_terms });
+        return successHandler(STATUS.SUCCESS.CODE, res, { message: "Users fetched successfully", response});
+    } catch (error) {
+        return errorHandler(STATUS.INTERNAL_ERROR.CODE, res, { error: error.message });
+    }
+};
+
+export default { getAllUsers, getUserById, getUserByEmail, deleteUser, updateUser, fetchAllUsers };
